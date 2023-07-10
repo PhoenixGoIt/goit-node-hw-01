@@ -1,5 +1,5 @@
 // index.js
-const contactsService = require('./db/index.cjs')
+const contactsService = require('./index.cjs')
 const { Command } = require('commander');
 const program = new Command();
 program
@@ -14,28 +14,21 @@ const argv = program.opts();
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case 'list':
-        const getContactList = await contactsService.getAllContacts()
-        return console.log(getContactList)
+      const getAll = await contactsService.getAllContacts()
+        return console.table(JSON.parse(getAll))
       break;
 
     case 'get':
-      const getContactById = await contactsService.getContactById(id)
-        return console.log(getContactById)
+      const getById = await contactsService.getContactById(id)
+      return console.table(getById)
       break;
 
     case 'add':
-      const contact = {
-        name,
-        email,
-        phone
-      }
-      const addContact = await contactsService.addContact(contact)
-      return console.log(addContact)
+      const addContact = contactsService.addContact(name, email, phone)
       break;
 
     case 'remove':
-      const removeContact   = await contactsService.removeContact(id)
-        return console.log(removeContact)
+      contactsService.removeContact(id)
       break;
 
     default:
