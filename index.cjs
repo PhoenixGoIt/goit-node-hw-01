@@ -15,11 +15,10 @@ const contactsPath = path.resolve("db", "contacts.json");
 };
 
  const removeContact = async(id) => {
-    const contactId = JSON.stringify(id)
     const contacts = await getAllContacts().then(data => JSON.parse(data));
-    const remove = contacts.filter(contact => contact.id !== contactId);
-    await fs.writeFile(contactsPath, JSON.stringify(remove))
+    const remove = contacts.filter(contact => contact.id !== id);
     console.table(remove);
+    await fs.writeFile(contactsPath, JSON.stringify(remove))
 };
 
  const addContact = async (name, email, phone) => {
@@ -32,7 +31,6 @@ const contactsPath = path.resolve("db", "contacts.json");
         phone: phone,
     });
     console.table(contacts);
-
     await fs.writeFile(contactsPath, JSON.stringify(contacts))
 }
 
